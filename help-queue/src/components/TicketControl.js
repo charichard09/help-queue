@@ -32,22 +32,34 @@ class TicketControl extends React.Component {
   }
 
   handleChangingSelectedTicket = (id) => {
-    const selectedTicket = this.state.mainTicketList.filter(ticket => ticket.id === id)[0];
-    this.setState( { selectedTicket: selectedTicket } );
+    // console.log("clicked", id, this.state.mainTicketList);
+    // console.log(this.state.mainTicketList.filter(ticket => ticket.id === id)[0])
+    const newSelectedTicket = this.state.mainTicketList.filter(ticket => ticket.id === id)[0];
+    console.log(newSelectedTicket);
+    this.setState( { selectedTicket: newSelectedTicket } );
+    console.log(this.state)
   };
+
+  handleDeletingTicket = (id) => {
+    const newMainTicketList = this.state.mainTicketList.filter(ticket => ticket.id !== id);
+    this.setState({
+      mainTicketList: newMainTicketList,
+      selectedTicket: null
+    });
+  }
 
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
 
-    if (this.selectedTicket != null) { 
-      currentlyVisibleState = <TicketDetail ticket = {this.state.selectedTicket} />
+    if (this.state.selectedTicket != null) { 
+      currentlyVisibleState = <TicketDetail ticket={this.state.selectedTicket} onClickingDelete={this.handleDeletingTicket}/>
       buttonText = "Return to Ticket List";
     } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}/>
       buttonText = "Return to Ticket List";
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList}/>;
+      currentlyVisibleState = <TicketList ticketList={this.state.mainTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>;
       buttonText = "Add Ticket";
     }
 

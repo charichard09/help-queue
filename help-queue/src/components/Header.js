@@ -1,7 +1,7 @@
 import React from 'react';
 import ticketImage from './../img/tickets-image.png';
 
-function Header() {
+const Header = () => {
   return (
     <React.Fragment>
       <h1>Help Queue</h1>
